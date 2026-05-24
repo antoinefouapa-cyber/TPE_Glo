@@ -10,7 +10,7 @@ public class Enseignants {
         this.prenom = prenom;
     }
 
-    // Getters et Setters (Essentiels en Java)
+    // getters et setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
