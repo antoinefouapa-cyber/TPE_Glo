@@ -90,14 +90,13 @@ public class FenetreEnseignant extends JFrame {
                 JOptionPane.showMessageDialog(this, "Matricule invalide. Veuillez réessayer.", "Erreur", JOptionPane.ERROR_MESSAGE);
                 return null;
             }else{
-                String sqlCheck = "SELECT COUNT(*) FROM eleves WHERE matricule = ?";
-                try (Connection conn1= BaseDonnees.getConnection();
-                    PreparedStatement pstmtCheck = conn1.prepareStatement(sqlCheck)){
+                try (Connection conn1= BaseDonnees.getConnexion()) {
+                    String sqlCheck = "SELECT COUNT(*) FROM eleves WHERE matricule = ?";
+                    PreparedStatement pstmtCheck = conn1.prepareStatement(sqlCheck);
                     pstmtCheck.setString(1, valeur.trim());
                     ResultSet rsCheck = pstmtCheck.executeQuery();
                     if (rsCheck.next() && rsCheck.getString(1).equals("0")) {
                        JOptionPane.showMessageDialog(this, "Aucun élève trouvé avec ce matricule !", "Erreur", JOptionPane.ERROR_MESSAGE);
-                       rsCheck.close();
                        return null;
                     }else{
                        JPanel panel = new JPanel(new GridBagLayout());
@@ -136,8 +135,8 @@ public class FenetreEnseignant extends JFrame {
                                 || txtcoef.getText().isEmpty()) {
                                 JOptionPane.showMessageDialog(this, "Veuillez remplir tous les champs !" , "Erreur", JOptionPane.ERROR_MESSAGE);
                             } else {
-                                try (Connection conn2 = BaseDonnees.getConnection();
-                                    PreparedStatement pstmt = conn2.prepareStatement(sql)){
+                                try (Connection conn2 = BaseDonnees.getConnexion()) {
+                                    PreparedStatement pstmt = conn2.prepareStatement(sql);
                                     pstmt.setString(1, valeur);
                                     pstmt.setString(2, txtmatiere.getText());
                                     pstmt.setString(3, txtNote.getText());
@@ -179,9 +178,9 @@ public class FenetreEnseignant extends JFrame {
     
 
     // ===================== MAIN =====================
-    // public static void main(String[] args) {
-    //     SwingUtilities.invokeLater(() -> {
-    //         new FenetreEnseignant().setVisible(true);
-    //     });
-    // }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new FenetreEnseignant().setVisible(true);
+        });
+    }
 }
